@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+<!--      <service id="console.command.messenger_consume_messages" class="Omnilog\AmqpMessengerBundle\Command\ConsumeMessagesCommand"/>-->
+
+
+      <service id="console.command.messenger_consume_messages" class="Omnilog\AmqpMessengerBundle\Command\ConsumeMessagesCommand">
+        <argument /> <!-- Routable message bus -->
+        <argument type="service" id="messenger.receiver_locator" />
+        <argument type="service" id="event_dispatcher" />
+        <argument type="service" id="logger" on-invalid="null" />
+        <argument type="collection" /> <!-- Receiver names -->
+
+        <tag name="console.command" command="messenger:consume" />
+        <tag name="console.command" command="messenger:consume-messages" />
+        <tag name="monolog.logger" channel="messenger" />
+      </service>
+    </services>
+</container>
